@@ -7,7 +7,7 @@ import Home from './Home'
 
 //styled components
 import { Container } from '../../../styles/appStyles'
-import { Esplash } from '../../../assets/images'
+
 // Async Storage
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import AppLoading from 'expo-app-loading'

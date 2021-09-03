@@ -1,6 +1,7 @@
 import React from 'react'
 import { ImageBackground, SectionList, View, StyleSheet } from 'react-native'
-
+import BackButton from '../../components/BackButton'
+import { useNavigation } from '@react-navigation/native'
 // styled components
 import {
   HeaderView,
@@ -13,9 +14,11 @@ import { Esplash } from '../../../assets/images'
 import { Entypo } from '@expo/vector-icons'
 
 const Header = ({ handleClearTodos }) => {
+  const navigation = useNavigation()
   return (
     <HeaderView>
-      <HeaderTitle>GoalsListss</HeaderTitle>
+      <BackButton goBack={navigation.goBack} />
+      <HeaderTitle style={{ marginLeft: 60 }}>GoalsListss</HeaderTitle>
       <HeaderButton onPress={handleClearTodos}>
         <Entypo name="trash" size={25} color={colors.secondary} />
       </HeaderButton>

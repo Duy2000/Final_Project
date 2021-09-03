@@ -50,7 +50,6 @@ const Add = ({ navigation }) => {
     setTitle('')
     navigate('Transactions')
   }
-  let [language, setLanguage] = React.useState('')
   return (
     <Box padding="l" flex={1}>
       <Box flexDirection="row" alignItems="center" paddingTop="l">
@@ -113,6 +112,7 @@ const Add = ({ navigation }) => {
             onChangeText={(title) => setTitle(title)}
           />
         </Box>
+
         <Box marginTop="xl">
           <BorderlessButton onPress={onSubmit}>
             <Box

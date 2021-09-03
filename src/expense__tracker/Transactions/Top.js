@@ -27,11 +27,18 @@ const Top = () => {
         <Text variant="title" style={{ fontSize: 30 }}>
           Transaction
         </Text>
+        {/* Navigator to  goal screen */}
         <TouchableOpacity onPress={() => navigation.navigate('Goals')}>
           <FontAwesome5 name="piggy-bank" size={24} color="white" />
         </TouchableOpacity>
-        <AntDesign name="piechart" size={24} color="white" />
-        <FontAwesome name="user" size={24} color="white" />
+        {/* Navigator to  chart screen */}
+        <TouchableOpacity onPress={() => navigation.navigate('Chart')}>
+          <AntDesign name="piechart" size={24} color="white" />
+        </TouchableOpacity>
+        {/* Navigator to  profile screen */}
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <FontAwesome name="user" size={24} color="white" />
+        </TouchableOpacity>
       </Box>
       <Box flexDirection="row" justifyContent="space-between" marginTop="m">
         <Box>

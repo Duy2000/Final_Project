@@ -10,7 +10,7 @@ import {
   SwipedTodoText,
   colors,
 } from '../../../styles/appStyles'
-
+import { useDispatch, useSelector } from 'react-redux'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import { Entypo } from '@expo/vector-icons'
 
@@ -34,6 +34,11 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit }) => {
   // For styling currently swiped todo row
   const [swipedRow, setSwipedRow] = useState(null)
 
+  // Value of progessBar
+  const { transactions } = useSelector((state) => state.trs)
+  const prices = transactions.map((transaction) => transaction.price)
+  const balance = prices.reduce((prev, cur) => (prev += cur), 0)
+
   return (
     <>
       {todos.length == 0 && <TodoText>You have no Goals </TodoText>}
@@ -54,10 +59,16 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit }) => {
                   <NativeBaseProvider>
                     <Center>
                       <RowText>{data.item.title}</RowText>
-                      <RowText>{data.item.price}</RowText>
+                      <RowText>{data.item.price}$</RowText>
                     </Center>
-                    <Progress value={45} mx={4} mb={5} mt={5} />
+                    <Progress
+                      value={(balance / data.item.price) * 100}
+                      mx={4}
+                      mb={5}
+                      mt={5}
+                    />
                   </NativeBaseProvider>
+
                   <TodoDate>{data.item.date}</TodoDate>
                 </>
               </ListView>

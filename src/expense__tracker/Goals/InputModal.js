@@ -92,7 +92,7 @@ const InputModal = ({
               placeholderTextColor={colors.alternative}
               selectionColor={colors.secondary}
               keyboardType="numeric"
-              onChangeText={(text) => setPriceInputValue(text)}
+              onChangeText={(numeric) => setPriceInputValue(numeric)}
               value={priceInputValue}
               autoFocus={true}
               onSubmitEditing={handleSubmit}
