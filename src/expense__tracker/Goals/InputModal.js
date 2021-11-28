@@ -13,6 +13,7 @@ import {
 } from '../../../styles/appStyles'
 import { AntDesign } from '@expo/vector-icons'
 import { AddIcon } from '../Svgs'
+import { firebase } from '../../../src/DataBase/DataBase'
 
 const InputModal = ({
   modalVisible,
@@ -32,7 +33,7 @@ const InputModal = ({
       handleAddTodo({
         title: todoInputValue,
         price: priceInputValue,
-        date: new Date().toUTCString(),
+        date: new Date().toLocaleString(),
         key: `${
           (todos[todos.length - 1] &&
             parseInt(todos[todos.length - 1].key) + 1) ||
@@ -49,6 +50,19 @@ const InputModal = ({
     }
     setPriceInputValue('')
     setTodoInputValue('')
+    //api to conect with Database
+    firebase
+      .database()
+      .ref('User')
+      .child('GoalsList')
+      .push({
+        todoInputValue,
+        priceInputValue,
+        todoToBeEdited,
+      })
+      .catch((error) => {
+        console.log('error', error)
+      })
   }
 
   const handleCloseModal = () => {

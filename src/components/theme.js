@@ -22,6 +22,7 @@ const theme = {
     m: 16,
     l: 24,
     xl: 40,
+    xxl: 60,
   },
   borderRadii: {
     s: 4,

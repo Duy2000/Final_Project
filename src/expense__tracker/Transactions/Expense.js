@@ -9,6 +9,8 @@ import Animated, { eq, interpolate } from 'react-native-reanimated'
 import { withTransition } from 'react-native-redash'
 import theme, { Box, Text } from '../../components/theme'
 import { Delete } from '../Svgs'
+import moment from 'moment'
+
 
 const Expense = ({ index, transition, onTap, onDelete, item, allDates }) => {
   const isActive = eq(transition, index)
@@ -50,7 +52,9 @@ const Expense = ({ index, transition, onTap, onDelete, item, allDates }) => {
                   padding: theme.spacing.l,
                 }}
               >
+                {/* revenues and expenditures will appear */}
                 <Animated.Text>{item.title}</Animated.Text>
+                <Text color="silver1">{moment().format('Do , h:mm a')}</Text>
                 <Animated.Text
                   style={{
                     opacity: hidePrice,

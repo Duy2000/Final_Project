@@ -7,9 +7,15 @@ import { useValue, withTransition } from 'react-native-redash'
 import { Ebg1 } from '../../../assets/images'
 import theme, { Box, Text } from '../../components/theme'
 import { Chart, AddIcon, Delete } from '../Svgs'
-import { FontAwesome5 } from '@expo/vector-icons'
-import { AntDesign } from '@expo/vector-icons'
-import { FontAwesome } from '@expo/vector-icons'
+
+import {
+  getDatabase,
+  ref,
+  onChildAdded,
+  onChildChanged,
+  onChildRemoved,
+  firebase,
+} from '../../../src/DataBase/DataBase'
 
 export const moneySign = '$'
 

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { StyleSheet, Dimensions, TextInput } from 'react-native'
+import { StyleSheet, Dimensions, TextInput, View, Picker } from 'react-native'
 import {
   BorderlessButton,
   TouchableOpacity,
@@ -10,7 +10,8 @@ import theme, { Box, Text } from '../../components/theme'
 import { BackArrow } from '../Svgs'
 import { addTransaction } from '../../../store/actions/transactionActions'
 import { useDispatch } from 'react-redux'
-
+//DataBase
+import { firebase } from '../../../src/DataBase/DataBase'
 /* Dimension */
 const { width, height } = Dimensions.get('window')
 
@@ -30,6 +31,7 @@ const Add = ({ navigation }) => {
   const { navigate } = navigation
   const [price, setPrice] = useState('')
   const [title, setTitle] = useState('')
+  const [date, setDate] = useState(new Date().toLocaleString())
   const titleRef = useRef(null)
 
   const onPop = () => {
@@ -41,13 +43,28 @@ const Add = ({ navigation }) => {
     const transaction = {
       price,
       title,
+      date,
     }
+    //database api
+    firebase
+      .database()
+      .ref('User')
+      .child('Transaction')
+      .push({
+        price,
+        title,
+        date,
+      })
+      .catch((error) => {
+        console.log('error', error)
+      })
 
     if (!price || !title) return alert('Details Empty')
 
     dispatch(addTransaction(transaction))
     setPrice('')
-    setTitle('')
+    setTitle([])
+    setDate([])
     navigate('Transactions')
   }
   return (
@@ -99,21 +116,25 @@ const Add = ({ navigation }) => {
             Dollar
           </Text>
         </Box>
+        {/* title */}
         <Box marginTop="xl" borderBottomWidth={2}>
-          <TextInput
-            ref={titleRef}
-            placeholderTextColor={theme.colors.primary}
-            placeholder="Expenses made for"
-            defaultValue={title}
-            style={{
-              fontSize: 30,
-              width: '80%',
-            }}
-            onChangeText={(title) => setTitle(title)}
-          />
+          <Picker
+            selectedValue={title}
+            style={{ height: 30, width: 300 }}
+            onValueChange={(itemValue, itemIndex) => setTitle(itemValue)}
+          >
+            <Picker.Item label="Choose your expend..." value="None" />
+            <Picker.Item label="Salary +" value="Salary" />
+            <Picker.Item label="Passive income +" value="Passive" />
+            <Picker.Item label="Other income +" value="Other" />
+            <Picker.Item label="Food -" value="Food" />
+            <Picker.Item label="Entertainment -" value="entertain" />
+            <Picker.Item label="Shopping -" value="Shop" />
+            <Picker.Item label="Luxury goods(should not) -" value="Luxury" />
+          </Picker>
         </Box>
 
-        <Box marginTop="xl">
+        <Box marginTop="xxl">
           <BorderlessButton onPress={onSubmit}>
             <Box
               borderRadius="l"

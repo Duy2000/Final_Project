@@ -22,7 +22,7 @@ const Top = () => {
   const income = expense + balance
 
   return (
-    <Box paddingLeft="l" paddingRight="l" style={{ paddingTop: 40 }}>
+    <Box paddingLeft="l" paddingRight="l" style={{ paddingTop: 60 }}>
       <Box flexDirection="row" justifyContent="space-between">
         <Text variant="title" style={{ fontSize: 30 }}>
           Transaction

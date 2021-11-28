@@ -1,8 +1,11 @@
-import { ADD_TRANSACTION, DELETE_TRANSACTION } from "../actions/types";
+import { ADD_TRANSACTION, DELETE_TRANSACTION } from '../actions/types'
+import { getDatabase, ref, onChildAdded } from '../../src/DataBase/DataBase'
 
 const initialState = {
-  transactions: [],
-};
+  transactions: [
+    { addedtime: 1576590342000, id: 2, title: 'Amala Soup', price: -40 },
+  ],
+}
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
@@ -10,13 +13,13 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         transactions: [payload, ...state.transactions],
-      };
+      }
     case DELETE_TRANSACTION:
       return {
         ...state,
         transactions: state.transactions.filter(({ id }) => id !== payload),
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}

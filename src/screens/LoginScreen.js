@@ -8,25 +8,23 @@ import Button from '../components/Button'
 import TextInput from '../components/TextInput'
 import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
-import { emailValidator } from '../helpers/emailValidator'
-import { passwordValidator } from '../helpers/passwordValidator'
+
+import { firebase } from '../../src/DataBase/DataBase'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
+  const [error, setError] = useState('')
 
-  const onLoginPressed = () => {
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
+  const onLoginPress = async () => {
+    try {
+      const response = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+      navigation.navigate('Dashboard')
+    } catch (err) {
+      setError(err.message)
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
   }
 
   return (
@@ -35,26 +33,25 @@ export default function LoginScreen({ navigation }) {
       <Logo />
       <Header>Welcome back.</Header>
       <TextInput
-        label="Email"
-        returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
+        style={styles.input}
+        placeholder="E-mail"
+        placeholderTextColor="#aaaaaa"
+        onChangeText={(text) => setEmail(text)}
+        value={email}
+        underlineColorAndroid="transparent"
         autoCapitalize="none"
-        autoCompleteType="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
       />
       <TextInput
-        label="Password"
-        returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: '' })}
-        error={!!password.error}
-        errorText={password.error}
+        style={styles.input}
+        placeholderTextColor="#aaaaaa"
         secureTextEntry
+        placeholder="Password"
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+        underlineColorAndroid="transparent"
+        autoCapitalize="none"
       />
+      {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
       <View style={styles.forgotPassword}>
         <TouchableOpacity
           onPress={() => navigation.navigate('ResetPasswordScreen')}
@@ -62,7 +59,7 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
+      <Button mode="contained" onPress={onLoginPress}>
         Login
       </Button>
       <View style={styles.row}>
